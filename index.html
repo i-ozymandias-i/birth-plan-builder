@@ -168,19 +168,19 @@ const CATALOG = [
   { id:'vexam-pre',   g:'Pre-Labor', icon:'✋', yes:'Vaginal exams OK before labor', no:'No vaginal exam until I go into labor', def:'no' },
   { id:'water',       g:'Pre-Labor', icon:'💧', yes:'Water to break on its own', no:'OK to break my water' },
   { id:'saline',      g:'Pre-Labor', icon:'🧪', yes:'Saline lock only', no:'Continuous IV OK' },
-  { id:'monitor',     g:'Pre-Labor', icon:'📈', yes:'Intermittent fetal monitoring', no:'Continuous fetal monitoring OK' },
+  { id:'monitor',     g:'Pre-Labor', icon:'💓', yes:'Intermittent fetal monitoring', no:'Continuous fetal monitoring OK' },
   { id:'eat',         g:'Pre-Labor', icon:'🍎', yes:'Eat & drink as desired', no:'Clear liquids only' },
   // Labor & delivery
   { id:'move',        g:'Labor & Delivery', icon:'🚶', yes:'Free movement', no:'Stay in bed' },
   { id:'residents',   g:'Labor & Delivery', icon:'👩‍⚕️', yes:'Residents welcome', no:'Residents to observe only', def:'no' },
-  { id:'nooffer',     g:'Labor & Delivery', icon:'🤐', yes:'Do not offer pain medication. Will request if desired', no:'Please offer pain medication' },
+  { id:'nooffer',     g:'Labor & Delivery', icon:'🙅', yes:'Do not offer pain medication. Will request if desired', no:'Please offer pain medication' },
   { id:'epidural',    g:'Labor & Delivery', icon:'💉', yes:'Analgesics / Epidural wanted', no:'No pain medication' },
   { id:'vexam',       g:'Labor & Delivery', icon:'🖐️', yes:'Vaginal exams as needed', no:'As few vaginal exams as possible', def:'no' },
   { id:'push',        g:'Labor & Delivery', icon:'🧘', yes:'Push as my body feels the need', no:'Be coached through pushing' },
   { id:'explain',     g:'Labor & Delivery', icon:'💬', yes:'Explain all procedures', no:'Minimal explanations' },
-  { id:'painscale',   g:'Labor & Delivery', icon:'📊', yes:'Ask pain scale', no:"Please don't ask pain scale", def:'no' },
+  { id:'painscale',   g:'Labor & Delivery', icon:'📏', yes:'Ask pain scale', no:"Please don't ask pain scale", def:'no' },
   { id:'shower',      g:'Labor & Delivery', icon:'🚿', yes:'Shower and / or tub', no:'No shower / tub' },
-  { id:'ball',        g:'Labor & Delivery', icon:'⚽', yes:'Birthing ball', no:'No birthing ball' },
+  { id:'ball',        g:'Labor & Delivery', icon:'🤰', yes:'Birthing ball', no:'No birthing ball' },
   { id:'positions',   g:'Labor & Delivery', icon:'🤸', yes:'Alternate pushing positions', no:'Push on my back' },
   { id:'perineum',    g:'Labor & Delivery', icon:'🤲', yes:'Assist w/ perineum stretching', no:'No perineum stretching / massaging' },
   { id:'lights',      g:'Labor & Delivery', icon:'💡', yes:'Dim lights', no:'Lights on' },
@@ -214,6 +214,54 @@ const CATALOG = [
   { id:'cs-partner',  g:'In Case of C-Section', icon:'🧑‍🤝‍🧑', yes:'Partner present in OR', no:'Partner waits outside' },
   { id:'cs-narrate',  g:'In Case of C-Section', icon:'🗣️', yes:'Narrate the procedure', no:'Please don\'t narrate' },
   { id:'cs-arms',     g:'In Case of C-Section', icon:'💪', yes:'Arms free (not strapped)', no:'Arms may be secured' },
+  { id:'cs-gentle',   g:'In Case of C-Section', icon:'💗', yes:'Gentle / family-centered cesarean', no:'Standard cesarean' },
+  { id:'cs-cord',     g:'In Case of C-Section', icon:'⏱️', yes:'Delayed cord clamping in OR', no:'Immediate cord clamping in OR' },
+  { id:'cs-music',    g:'In Case of C-Section', icon:'🎶', yes:'My music in the OR', no:'No music in the OR' },
+  { id:'cs-photos',   g:'In Case of C-Section', icon:'📸', yes:'Photos in the OR', no:'No photos in the OR' },
+  { id:'cs-feed',     g:'In Case of C-Section', icon:'🍼', yes:'Breastfeed in recovery', no:'Feed baby later' },
+  { id:'cs-baby-partner', g:'In Case of C-Section', icon:'👨‍🍼', yes:'Partner stays with baby if separated', no:'Partner stays with me' },
+  // Pre-labor additions
+  { id:'membrane',    g:'Pre-Labor', icon:'🧹', yes:'Membrane sweep OK', no:'No membrane sweep', def:'no' },
+  { id:'pitocin',     g:'Pre-Labor', icon:'💉', yes:'Pitocin OK if needed', no:'No Pitocin unless medically necessary', def:'no' },
+  { id:'home-long',   g:'Pre-Labor', icon:'🏠', yes:'Labor at home as long as possible', no:'Come to hospital early' },
+  { id:'doula',       g:'Pre-Labor', icon:'🤝', yes:'Doula present', no:'No doula' },
+  { id:'clothes',     g:'Pre-Labor', icon:'👕', yes:'Wear my own clothes', no:'Hospital gown OK' },
+  { id:'gbs',         g:'Pre-Labor', icon:'🦠', yes:'GBS antibiotics if positive', no:'Discuss GBS options first' },
+  // Comfort measures
+  { id:'squat-bar',   g:'Comfort Measures', icon:'🏋️', yes:'Squat bar', no:'No squat bar' },
+  { id:'peanut-ball', g:'Comfort Measures', icon:'🥜', yes:'Peanut ball', no:'No peanut ball' },
+  { id:'stool',       g:'Comfort Measures', icon:'🪑', yes:'Birthing stool', no:'No birthing stool' },
+  { id:'rebozo',      g:'Comfort Measures', icon:'🧣', yes:'Rebozo', no:'No rebozo' },
+  { id:'massage',     g:'Comfort Measures', icon:'💆', yes:'Massage / counter-pressure', no:'Please don\'t touch me' },
+  { id:'hotcold',     g:'Comfort Measures', icon:'🧊', yes:'Hot / cold packs', no:'No hot / cold packs' },
+  { id:'tens',        g:'Comfort Measures', icon:'⚡', yes:'TENS unit', no:'No TENS unit' },
+  { id:'aroma',       g:'Comfort Measures', icon:'🌿', yes:'Aromatherapy / essential oils', no:'No scents please' },
+  { id:'hypno',       g:'Comfort Measures', icon:'🫁', yes:'Hypnobirthing / breathing techniques', no:'No coaching on breathing' },
+  { id:'quiet',       g:'Comfort Measures', icon:'🔇', yes:'Quiet, calm voices', no:'Normal conversation OK' },
+  { id:'limit-staff', g:'Comfort Measures', icon:'🔒', yes:'Limit people in the room', no:'Students & staff welcome' },
+  // Labor & delivery additions
+  { id:'nitrous',     g:'Labor & Delivery', icon:'💨', yes:'Nitrous oxide wanted', no:'No nitrous oxide' },
+  { id:'iv-pain',     g:'Labor & Delivery', icon:'🩺', yes:'IV pain medication OK', no:'No IV narcotics' },
+  { id:'wireless',    g:'Labor & Delivery', icon:'📡', yes:'Wireless monitoring', no:'Wired monitoring OK' },
+  { id:'water-birth', g:'Labor & Delivery', icon:'🌊', yes:'Water birth', no:'No water birth' },
+  { id:'push-time',   g:'Labor & Delivery', icon:'⌛', yes:'No time limit on pushing', no:'Follow standard pushing time' },
+  { id:'compress',    g:'Labor & Delivery', icon:'♨️', yes:'Warm compresses on perineum', no:'No warm compresses' },
+  { id:'tear',        g:'Labor & Delivery', icon:'🩹', yes:'Prefer natural tear over cut', no:'Episiotomy if provider prefers' },
+  { id:'assisted',    g:'Labor & Delivery', icon:'🔧', yes:'Vacuum / forceps only if necessary', no:'Vacuum / forceps OK' },
+  { id:'touch-head',  g:'Labor & Delivery', icon:'👋', yes:'Touch baby\'s head as it crowns', no:'Don\'t offer to touch baby\'s head' },
+  { id:'catch',       g:'Labor & Delivery', icon:'🫴', yes:'Partner helps catch baby', no:'Provider catches baby' },
+  { id:'announce',    g:'Labor & Delivery', icon:'📣', yes:'Partner announces the sex', no:'Provider announces the sex' },
+  { id:'hands-off',   g:'Labor & Delivery', icon:'🙌', yes:'Hands-off delivery', no:'Active guidance at delivery' },
+  // After birth additions
+  { id:'golden',      g:'After Birth', icon:'☀️', yes:'Uninterrupted golden hour', no:'Routine procedures right away' },
+  { id:'exam-chest',  g:'After Birth', icon:'🩺', yes:'Newborn exam on my chest', no:'Newborn exam in warmer' },
+  { id:'physio-placenta', g:'After Birth', icon:'🌳', yes:'Physiological placenta delivery', no:'Active management (Pitocin) OK' },
+  { id:'lactation',   g:'After Birth', icon:'🫶', yes:'Lactation consultant visit', no:'No lactation consultant' },
+  { id:'glucose',     g:'After Birth', icon:'🍬', yes:'Glucose gel before formula', no:'Formula if blood sugar low' },
+  { id:'donor-milk',  g:'After Birth', icon:'🧴', yes:'Donor milk if supplementing', no:'Formula if supplementing' },
+  { id:'with-partner',g:'After Birth', icon:'👨‍🍼', yes:'Baby stays with partner if separated', no:'Baby may go to nursery alone' },
+  { id:'hearing',     g:'After Birth', icon:'👂', yes:'Newborn hearing screen', no:'Decline hearing screen' },
+  { id:'pp-visitors', g:'After Birth', icon:'🚫', yes:'Limit postpartum visitors', no:'Visitors welcome postpartum' },
 ];
 
 const DEFAULT_SECTIONS = [
@@ -302,7 +350,8 @@ function renderPalette() {
     if (q && !(it.yes + ' ' + (it.no || '') + ' ' + labelOf(it)).toLowerCase().includes(q)) continue;
     (groups[it.g || 'Custom'] ||= []).push(it);
   }
-  const names = Object.keys(groups);
+  const ORDER = ['Pre-Labor','Labor & Delivery','Comfort Measures','After Birth','In Case of C-Section','Custom'];
+  const names = Object.keys(groups).sort((a,b) => ((ORDER.indexOf(a)+1)||99) - ((ORDER.indexOf(b)+1)||99));
   if (!names.length) pal.innerHTML = '<div class="empty-note">Nothing left here — everything is on your plan.</div>';
   for (const g of names) {
     const wrap = document.createElement('div');
