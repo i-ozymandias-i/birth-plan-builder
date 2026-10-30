@@ -46,6 +46,7 @@
   .card.no .circle .ico.slash::after { content: ""; }
   .label { font-size: 12.5px; line-height: 1.2; margin-top: 6px; color: var(--yes); font-weight: 600; outline: none; min-height: 1.2em; word-break: break-word; }
   .card.no .label { color: var(--no); }
+  .detail { font-size: 10px; line-height: 1.25; margin-top: 4px; color: #5d554c; font-weight: 400; white-space: normal; }
   .palette .circle { width: 50px; height: 50px; }
   .palette .circle .ico { font-size: 26px; }
   .palette .label { font-size: 11px; }
@@ -56,7 +57,7 @@
 
   /* ---------- Document ---------- */
   .stage { overflow: auto; padding: 28px; display: flex; justify-content: center; align-items: flex-start; }
-  .doc { width: 1100px; min-height: 850px; background: var(--paper); box-shadow: 0 6px 30px rgba(0,0,0,.15); padding: 30px 36px 26px; display: flex; flex-direction: column; }
+  .doc { width: 1100px; flex: 0 0 1100px; min-height: 850px; background: var(--paper); box-shadow: 0 6px 30px rgba(0,0,0,.15); padding: 30px 36px 26px; display: flex; flex-direction: column; }
   .doc-head { text-align: center; margin-bottom: 14px; }
   .doc-title { font-size: 34px; font-weight: 300; margin: 0; outline: none; letter-spacing: .01em; }
   .doc-sub { font-size: 14px; color: #6d655b; margin-top: 4px; outline: none; }
@@ -265,20 +266,82 @@ const CATALOG = [
 ];
 
 const DEFAULT_SECTIONS = [
-  { id:'s1', name:'Pre-Labor', wide:false },
-  { id:'s2', name:'Labor & Delivery', wide:false },
-  { id:'s3', name:'After Birth', wide:false },
-  { id:'s4', name:'In Case of C-Section', wide:false },
+  { id:'s1', name:'Labor & Delivery', wide:false, items:['plan-communication','plan-dim-lights','plan-no-students','plan-explanations','plan-freedom-movement','plan-nitrous','plan-epidural','plan-wireless-monitoring','plan-kneeling','plan-squatting','plan-upright','plan-side-lying'] },
+  { id:'s2', name:'Interventions', wide:false, items:['plan-explain-interventions','plan-alternatives','plan-questions','plan-active-decisions','plan-intervention-decision','plan-induction-decision','plan-assistance-decision','plan-episiotomy'] },
+  { id:'s3', name:'Baby Care', wide:false, items:['plan-skin-to-skin','plan-cord-clamping','plan-extra-care','plan-newborn-meds','plan-feeding'] },
+  { id:'s4', name:'Postpartum Recovery', wide:false, items:['plan-pain-meds','plan-hot-cold','plan-sitz-bath','plan-perineal-care','plan-numbing','plan-binder','plan-movement','plan-hydration','plan-limit-visitors','plan-mental-health'] },
+  { id:'s5', name:'Moving Labor Along', wide:true, items:['plan-walking','plan-squats-lunges','plan-birthing-ball','plan-all-fours'] },
+  { id:'s6', name:'Staying Comfortable', wide:true, items:['plan-distraction','plan-breathing','plan-warm-bath','plan-hot-cold-coping','plan-massage'] },
+  { id:'s7', name:'Support from Mikhail Oza', wide:true, items:['plan-encouragement','plan-positioning-support','plan-care-team-communication'] },
 ];
+
+const PERSONAL_PREFERENCES = [
+  { id:'plan-communication', g:'Labor & Delivery', icon:'💬', yes:'My support person will assist with communication during labor', no:'I will communicate without my support person' },
+  { id:'plan-dim-lights', g:'Labor & Delivery', icon:'💡', yes:'Dim lights', no:'Lights at usual brightness' },
+  { id:'plan-no-students', g:'Labor & Delivery', icon:'🎓', yes:'No medical or nursing students', no:'Medical and nursing students may participate' },
+  { id:'plan-explanations', g:'Labor & Delivery', icon:'🗣️', yes:'Clear explanations before exams or changes', no:'Brief explanations' },
+  { id:'plan-freedom-movement', g:'Labor & Delivery', icon:'🚶', yes:'Freedom of movement for coping during labor', no:'Movement as medically appropriate' },
+  { id:'plan-nitrous', g:'Labor & Delivery', icon:'💨', yes:'Nitrous oxide (if available)', no:'No nitrous oxide' },
+  { id:'plan-epidural', g:'Labor & Delivery', icon:'💉', yes:'Epidural available; decide in the moment', no:'No epidural' },
+  { id:'plan-wireless-monitoring', g:'Labor & Delivery', icon:'📡', yes:'Continuous wireless monitoring (if available)', no:'Other monitoring as recommended' },
+  { id:'plan-kneeling', g:'Labor & Delivery', icon:'🤲', yes:'Kneeling or hands-and-knees for pushing', no:'Other pushing positions' },
+  { id:'plan-squatting', g:'Labor & Delivery', icon:'🧘', yes:'Squatting for pushing', no:'Other pushing positions' },
+  { id:'plan-upright', g:'Labor & Delivery', icon:'🧍', yes:'Supported upright (standing, leaning, or using a bar)', no:'Other pushing positions' },
+  { id:'plan-side-lying', g:'Labor & Delivery', icon:'🛌', yes:'Side-lying for pushing', no:'Other pushing positions' },
+  { id:'plan-explain-interventions', g:'Interventions', icon:'💬', yes:'Explain procedures or interventions clearly', no:'Brief explanation of procedures' },
+  { id:'plan-alternatives', g:'Interventions', icon:'🔀', yes:'Explain alternatives to the recommended option', no:'Proceed with the recommended option' },
+  { id:'plan-questions', g:'Interventions', icon:'❓', yes:'Time to ask questions when it is not an emergency', no:'Proceed without pausing for questions' },
+  { id:'plan-active-decisions', g:'Interventions', icon:'🤝', yes:'Take an active role in decisions', no:'Let my provider make decisions' },
+  { id:'plan-intervention-decision', g:'Interventions', icon:'🧭', yes:'If an intervention is recommended, decide with my provider in the moment', no:'Follow the recommended intervention' },
+  { id:'plan-induction-decision', g:'Interventions', icon:'⏳', yes:'If induction is recommended, decide with my provider in the moment', no:'Review induction options with my provider' },
+  { id:'plan-assistance-decision', g:'Interventions', icon:'🩺', yes:'If delivery assistance is recommended, decide with my provider in the moment', no:'Review delivery-assistance options with my provider' },
+  { id:'plan-episiotomy', g:'Interventions', icon:'✂️', yes:'Avoid episiotomy if possible', no:'Episiotomy is okay if recommended' },
+  { id:'plan-skin-to-skin', g:'Baby Care', icon:'🤱', yes:'Uninterrupted skin-to-skin for the first hour', no:'Routine baby care before skin-to-skin' },
+  { id:'plan-cord-clamping', g:'Baby Care', icon:'⏱️', yes:'Delayed cord clamping (30–60 seconds after birth)', no:'Immediate cord clamping' },
+  { id:'plan-extra-care', g:'Baby Care', icon:'🫂', yes:'Support person stays with baby if extra care is needed', no:'Baby may receive extra care without support person' },
+  { id:'plan-newborn-meds', g:'Baby Care', icon:'💊', yes:'Plan to receive all routinely recommended newborn medications', no:'Discuss newborn medications individually' },
+  { id:'plan-feeding', g:'Baby Care', icon:'🍼', yes:'Breastfeeding / chestfeeding', no:'Discuss feeding options' },
+  { id:'plan-pain-meds', g:'Postpartum Recovery', icon:'💊', yes:'Pain medications', no:'No pain medications' },
+  { id:'plan-hot-cold', g:'Postpartum Recovery', icon:'🧊', yes:'Hot or cold therapy', no:'No hot or cold therapy' },
+  { id:'plan-sitz-bath', g:'Postpartum Recovery', icon:'🛁', yes:'Sitz bath', no:'No sitz bath' },
+  { id:'plan-perineal-care', g:'Postpartum Recovery', icon:'🩹', yes:'Perineal care (e.g., ice packs, pericare bottle, witch hazel)', no:'No perineal care products' },
+  { id:'plan-numbing', g:'Postpartum Recovery', icon:'🌿', yes:'Numbing spray or cream', no:'No numbing spray or cream' },
+  { id:'plan-binder', g:'Postpartum Recovery', icon:'🩺', yes:'Compression belt / abdominal binder', no:'No compression belt / abdominal binder' },
+  { id:'plan-movement', g:'Postpartum Recovery', icon:'🚶', yes:'Walking / movement', no:'Rest in bed' },
+  { id:'plan-hydration', g:'Postpartum Recovery', icon:'💧', yes:'Hydration', no:'No hydration support needed' },
+  { id:'plan-limit-visitors', g:'Postpartum Recovery', icon:'🚪', yes:'Limit visitors', no:'Visitors welcome' },
+  { id:'plan-mental-health', g:'Postpartum Recovery', icon:'❤️', yes:'Mental health check-ins from my support person', no:'No mental health check-ins needed' },
+  { id:'plan-walking', g:'Personal Coping Plans', icon:'💃', yes:'Standing, walking, swaying, or dancing', no:'Rest without movement', detail:'Uses gravity and gentle movement to help labor progress.' },
+  { id:'plan-squats-lunges', g:'Personal Coping Plans', icon:'🏋️', yes:'Squats or lunges', no:'No squats or lunges', detail:'Opens the hips and creates more space for baby to move down.' },
+  { id:'plan-birthing-ball', g:'Personal Coping Plans', icon:'⚽', yes:'Sitting on a birthing ball', no:'No birthing ball', detail:'Wide legs, hip circles, and pelvic tilts help keep hips open and ease tension.' },
+  { id:'plan-all-fours', g:'Personal Coping Plans', icon:'🤲', yes:'Kneeling or on all fours', no:'No kneeling or hands-and-knees', detail:'Opens the pelvis and can help relieve back pressure.' },
+  { id:'plan-distraction', g:'Personal Coping Plans', icon:'🎵', yes:'Distraction: music, talking, or TV', no:'No distraction', detail:'Takes my mind off pain.' },
+  { id:'plan-breathing', g:'Personal Coping Plans', icon:'🫁', yes:'Slow, steady breathing', no:'No breathing guidance', detail:'Helps my body relax.' },
+  { id:'plan-warm-bath', g:'Personal Coping Plans', icon:'🚿', yes:'Warm bath or shower', no:'No bath or shower', detail:'Soothes muscles and tension.' },
+  { id:'plan-hot-cold-coping', g:'Personal Coping Plans', icon:'🧊', yes:'Hot / cold therapy', no:'No hot / cold therapy', detail:'Ice packs and/or heat packs to ease pain.' },
+  { id:'plan-massage', g:'Personal Coping Plans', icon:'💆', yes:'Massage', no:'No massage', detail:'To relieve pressure, especially in my lower back.' },
+  { id:'plan-encouragement', g:'Support from Mikhail Oza', icon:'💛', yes:'Offer encouragement and reassurance', no:'No encouragement needed' },
+  { id:'plan-positioning-support', g:'Support from Mikhail Oza', icon:'🫂', yes:'Help with positioning and comfort', no:'No positioning help needed' },
+  { id:'plan-care-team-communication', g:'Support from Mikhail Oza', icon:'🗣️', yes:'Help me communicate with my care team', no:'I will communicate with my care team' },
+];
+
+const BRAIN_NOTES = `My decision-making toolkit: The BRAIN framework
+BRAIN is a simple set of questions to use when an intervention is suggested, when time allows:
+B — Benefits: What are the benefits of this option right now?
+R — Risks: What are the risks or downsides?
+A — Alternatives: Are there other options we could consider?
+I — Intuition: What feels right to me, based on my values and instincts?
+N — Nothing (or wait): What happens if we wait or do nothing for now? How might that change options later?
+I don't have to ask every question every time. Even one or two can support shared decision-making.`;
 
 const KEY = 'visual-birth-plan-v1';
 const defaultState = () => ({
-  title: 'Birth Preferences',
-  subtitle: 'Name · Partner · Due date · Provider',
-  notes: '',
+  title: "Sue Yee Chen's Birth Preferences",
+  subtitle: 'Planned delivery: Vaginal birth · Support person: Mikhail Oza (Partner)',
+  notes: BRAIN_NOTES,
   showNotes: true,
-  sections: DEFAULT_SECTIONS.map(s => ({ ...s, items: [] })),
-  custom: [],
+  sections: DEFAULT_SECTIONS.map(s => ({ ...s, items: [...s.items] })),
+  custom: PERSONAL_PREFERENCES.map(it => ({ ...it })),
   choice: {},   // id -> 'yes' | 'no'
   labels: {},   // id -> { yes, no } overrides
 });
@@ -305,7 +368,8 @@ function cardEl(it, inDoc) {
   el.innerHTML = `
     ${inDoc ? '<button class="flip" title="Swap want / don\'t want">⇄</button><button class="x" title="Remove">✕</button>' : ''}
     <div class="circle" title="Click to toggle want / don't want"><span class="ico">${it.icon}</span></div>
-    <div class="label" ${inDoc ? 'contenteditable="true" spellcheck="false"' : ''}>${esc(labelOf(it))}</div>`;
+    <div class="label" ${inDoc ? 'contenteditable="true" spellcheck="false"' : ''}>${esc(labelOf(it))}</div>
+    ${it.detail ? `<div class="detail">${esc(it.detail)}</div>` : ''}`;
 
   el.querySelector('.circle').addEventListener('click', e => { if (!inDoc || selectedId) return; e.stopPropagation(); toggle(it.id); });
   el.querySelector('.flip')?.addEventListener('click', e => { e.stopPropagation(); toggle(it.id); });
