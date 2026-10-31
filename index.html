@@ -85,6 +85,49 @@
   .exporting .notes:empty::before { content: ""; }
   .notes-box.hidden { display: none; }
 
+  @page { margin: 0.45in; }
+  @media print {
+    html, body { width: 100%; height: auto; background: #fff; }
+    body { color: #222; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .app { display: block; height: auto; }
+    .sidebar, .modal-bg, .toast { display: none !important; }
+    .stage { display: block; overflow: visible; padding: 0; }
+    .doc { width: auto; flex: none; min-height: 0; padding: 0; box-shadow: none; }
+    .doc-head { margin-bottom: 8px; }
+    .doc-title { font-size: 23pt; }
+    .doc-sub { font-size: 10pt; }
+    .legend { font-size: 9pt; margin-top: 5px; }
+    .dot { width: 9px; height: 9px; }
+    .sections { display: block; padding-top: 8px; }
+    .section {
+      display: inline-block;
+      width: calc(50% - 10px);
+      vertical-align: top;
+      margin: 0 3px 10px;
+      padding: 20px 7px 7px;
+      min-height: 0;
+      border-width: 1px;
+      border-radius: 12px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .section.wide { display: block; width: 100%; margin-left: 0; margin-right: 0; }
+    .section.drag-over, .section.target { background: transparent; }
+    .section-tab { top: -10px; left: 12px; font-size: 11pt; padding: 3px 12px; }
+    .section-tools, .card .x, .card .flip, .items .placeholder, .drop-hint { display: none !important; }
+    .items { min-height: 0; gap: 4px 0; }
+    .section .card { width: 31%; padding: 3px 2px; cursor: default; }
+    .section.wide .card { width: 19%; }
+    .circle { width: 34px; height: 34px; background: transparent !important; border: 1px solid var(--yes); }
+    .card.no .circle { border-color: var(--no); }
+    .circle .ico { font-size: 19px; filter: none; }
+    .label { font-size: 8pt; line-height: 1.15; margin-top: 3px; }
+    .detail { font-size: 7pt; line-height: 1.15; margin-top: 2px; }
+    .notes-box { margin-top: 5px; padding: 17px 10px 8px; border-width: 1px; border-radius: 12px; break-inside: avoid; page-break-inside: avoid; }
+    .notes-box .section-tab { top: -9px; font-size: 10pt; }
+    .notes { min-height: 0; font-size: 8.5pt; line-height: 1.3; }
+  }
+
   /* ---------- Modal ---------- */
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; align-items: center; justify-content: center; z-index: 10; }
   .modal-bg.open { display: flex; }
@@ -108,11 +151,13 @@
       <p class="hint">
         <b>Drag</b> preferences onto the page (or click one, then click a section).<br>
         <b>Click the circle</b> to flip between <span style="color:var(--yes);font-weight:600">want</span> / <span style="color:var(--no);font-weight:600">don't want</span>.<br>
-        <b>Click any text</b> on the page to edit it. Drag back here to remove.
+        <b>Click any text</b> on the page to edit it. Drag back here to remove.<br>
+        <b>Print / Save PDF</b> creates a clean, print-ready copy.
       </p>
     </header>
     <div class="toolbar">
-      <button class="primary" id="exportBtn">⬇ Export PNG</button>
+      <button class="primary" id="printBtn">🖨 Print / Save PDF</button>
+      <button id="exportBtn">⬇ Export PNG</button>
       <button id="addItemBtn">＋ Custom item</button>
       <button id="addSectionBtn">＋ Section</button>
       <button id="notesBtn">Notes box</button>
@@ -571,6 +616,13 @@ document.getElementById('mSave').addEventListener('click', () => {
 });
 
 // ---------- Export ----------
+document.getElementById('printBtn').addEventListener('click', () => {
+  document.activeElement?.blur();
+  selectedId = null;
+  render();
+  window.print();
+});
+
 document.getElementById('exportBtn').addEventListener('click', async () => {
   const doc = document.getElementById('doc');
   document.activeElement?.blur();
